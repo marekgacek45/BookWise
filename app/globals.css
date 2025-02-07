@@ -248,7 +248,7 @@
   }
 
   .auth-box {
-    @apply gradient-vertical mx-auto flex max-w-xl flex-col gap-6 rounded-lg p-10;
+    @apply gradient-vertical mx-auto flex  flex-col gap-6 rounded-lg p-10 min-w-[300px]  sm:min-w-[500px];
   }
 
   .auth-illustration {
