@@ -1,6 +1,7 @@
 
 'use client'
 import AuthForm from '@/components/auth-form'
+import { signUp } from '@/lib/actions/auth'
 import { signUpSchema } from '@/lib/validations'
 import React from 'react'
 
@@ -18,7 +19,7 @@ const SignOut = () => {
 					universityId: 0,
 					universityCard: '',
 				}}
-				OnSubmit={() => console.log('yo')}
+				onSubmit={signUp}
 			/>
 		</div>
 	)

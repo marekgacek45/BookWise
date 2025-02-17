@@ -9,6 +9,8 @@ import { Input } from '@/components/ui/input'
 import Link from 'next/link'
 import { FIELD_NAMES, FIELD_TYPES } from '@/constants'
 import ImageUpload from './image-upload'
+import { toast } from '@/hooks/use-toast'
+import { useRouter } from 'next/navigation'
 
 interface Props<T extends FieldValues> {
 	schema: ZodType<T>
@@ -18,6 +20,7 @@ interface Props<T extends FieldValues> {
 }
 
 const AuthForm = <T extends FieldValues>({ type, schema, defaultValues, onSubmit }: Props<T>) => {
+	const router = useRouter()
 	const isSignIn = type === 'SIGN_IN'
 
 	const form: UseFormReturn<T> = useForm({
@@ -25,7 +28,25 @@ const AuthForm = <T extends FieldValues>({ type, schema, defaultValues, onSubmit
 		defaultValues: defaultValues as DefaultValues<T>,
 	})
 
-	const handleSubmit: SubmitHandler<T> = async data => {}
+	const handleSubmit: SubmitHandler<T> = async data => {
+		const result = await onSubmit(data)
+
+		if (result.success) {
+			toast({
+				title: 'Success',
+				description: isSignIn ? 'Sign In Success' : 'Sign Up Success',
+			})
+
+			router.push('/')
+		}else{
+			toast({
+				title: `Error ${isSignIn ? 'signing in' : 'signing up'}`,
+				description: result.error ?? 'An error occurred',
+				variant: 'destructive',
+			})
+
+		}
+	}
 
 	return (
 		<div className='flex flex-col gap-4'>
@@ -48,19 +69,26 @@ const AuthForm = <T extends FieldValues>({ type, schema, defaultValues, onSubmit
 									<FormLabel className='capitalize'>{FIELD_NAMES[field.name as keyof typeof FIELD_NAMES]}</FormLabel>
 									<FormControl>
 										{field.name === 'universityCard' ? (
-											<ImageUpload onFileChange={field.onChange}/>
+											<ImageUpload onFileChange={field.onChange} />
 										) : (
-											<Input required type={FIELD_TYPES[field.name as keyof typeof FIELD_TYPES]} {...field} className='form-input'/>
+											<Input
+												required
+												type={FIELD_TYPES[field.name as keyof typeof FIELD_TYPES]}
+												{...field}
+												className='form-input'
+											/>
 										)}
 									</FormControl>
-									
+
 									<FormMessage />
 								</FormItem>
 							)}
 						/>
 					))}
 
-					<Button type='submit' className='form-btn'>{isSignIn ? 'Sign In' : 'Sign Up'}</Button>
+					<Button type='submit' className='form-btn'>
+						{isSignIn ? 'Sign In' : 'Sign Up'}
+					</Button>
 				</form>
 			</Form>
 
