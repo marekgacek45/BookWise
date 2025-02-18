@@ -94,7 +94,7 @@ const AuthForm = <T extends FieldValues>({ type, schema, defaultValues, onSubmit
 
 			<p className='text-center text-base font-medium'>
 				{isSignIn ? 'New to BookWise?' : 'Already have an account?'}
-				<Link href={isSignIn ? '/sign-out' : '/sign-in'} className='font-bold text-primary ml-1'>
+				<Link href={isSignIn ? '/sign-up' : '/sign-in'} className='font-bold text-primary ml-1'>
 					{isSignIn ? 'Sign In' : 'Sign Out'}
 				</Link>
 			</p>
