@@ -17,21 +17,18 @@ export const users = pgTable('users', {
 	createdAt: timestamp('created_at', { withTimezone: true }).defaultNow(),
 })
 
-// export const postsTable = pgTable('posts_table', {
-//   id: serial('id').primaryKey(),
-//   title: text('title').notNull(),
-//   content: text('content').notNull(),
-//   userId: integer('user_id')
-//     .notNull()
-//     .references(() => usersTable.id, { onDelete: 'cascade' }),
-//   createdAt: timestamp('created_at').notNull().defaultNow(),
-//   updatedAt: timestamp('updated_at')
-//     .notNull()
-//     .$onUpdate(() => new Date()),
-// });
-
-// export type InsertUser = typeof usersTable.$inferInsert;
-// export type SelectUser = typeof usersTable.$inferSelect;
-
-// export type InsertPost = typeof postsTable.$inferInsert;
-// export type SelectPost = typeof postsTable.$inferSelect;
+export const books = pgTable("books", {
+	id: uuid("id").notNull().primaryKey().defaultRandom().unique(),
+	title: varchar("title", { length: 255 }).notNull(),
+	author: varchar("author", { length: 255 }).notNull(),
+	genre: text("genre").notNull(),
+	rating: integer("rating").notNull(),
+	coverUrl: text("cover_url").notNull(),
+	coverColor: varchar("cover_color", { length: 7 }).notNull(),
+	description: text("description").notNull(),
+	totalCopies: integer("total_copies").notNull().default(1),
+	availableCopies: integer("available_copies").notNull().default(0),
+	videoUrl: text("video_url").notNull(),
+	summary: varchar("summary").notNull(),
+	createdAt: timestamp("created_at", { withTimezone: true }).defaultNow(),
+  });

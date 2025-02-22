@@ -1,4 +1,4 @@
-'use client '
+'use client'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { DefaultValues, FieldValues, Path, useForm, UseFormReturn, SubmitHandler } from 'react-hook-form'
 import { z, ZodType } from 'zod'
@@ -8,7 +8,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { Input } from '@/components/ui/input'
 import Link from 'next/link'
 import { FIELD_NAMES, FIELD_TYPES } from '@/constants'
-import ImageUpload from './image-upload'
+import FileUpload from './file-upload'
 import { toast } from '@/hooks/use-toast'
 import { useRouter } from 'next/navigation'
 
@@ -69,7 +69,7 @@ const AuthForm = <T extends FieldValues>({ type, schema, defaultValues, onSubmit
 									<FormLabel className='capitalize'>{FIELD_NAMES[field.name as keyof typeof FIELD_NAMES]}</FormLabel>
 									<FormControl>
 										{field.name === 'universityCard' ? (
-											<ImageUpload onFileChange={field.onChange} />
+											<FileUpload type="image" accept="image/*" placeholder="Upload University Card" folder="university-card" variant="dark" onFileChange={field.onChange} />
 										) : (
 											<Input
 												required
